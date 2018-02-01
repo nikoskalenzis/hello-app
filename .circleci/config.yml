@@ -18,10 +18,10 @@ jobs:
         - sudo /opt/google-cloud-sdk/bin/gcloud --quiet config set container/cluster $CLUSTER_NAME
         - sudo /opt/google-cloud-sdk/bin/gcloud config set compute/zone ${CLOUDSDK_COMPUTE_ZONE}
         - sudo /opt/google-cloud-sdk/bin/gcloud --quiet container clusters get-credentials $CLUSTER_NAME 
-      test:
-        post:
-          - docker run -d -p 8080:8080 gcr.io/${PROJECT_ID}/hello-web:$CIRCLE_SHA!; sleep10
-          - curl --retry 10 --retry-delay 5 -v http://localhost:8080
+    test:
+      post:
+        - docker run -d -p 8080:8080 gcr.io/${PROJECT_ID}/hello-web:$CIRCLE_SHA!; sleep10
+        - curl --retry 10 --retry-delay 5 -v http://localhost:8080
   deploy:
     machine:
       enabled: true
