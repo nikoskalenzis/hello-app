@@ -1,6 +1,7 @@
 version: 2
 jobs:
   build:
+    steps:
     docker:
       - image: alpine:latest
         environment:
