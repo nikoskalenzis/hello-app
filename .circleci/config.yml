@@ -48,7 +48,7 @@ jobs:
      
       - run:
           name: push docker image to gcr
-          command: gcloud docker -- push gcr.io/${PROJECT_ID}/hello-app:$CIRCLE_SHA1
+          command: sudo gcloud docker -- push gcr.io/${PROJECT_ID}/hello-app:$CIRCLE_SHA1
       - run:
           name: patch deployment
           command: kubectl patch deployment hello-web -p '{"spec":{"template":{"spec":{"containers":[{"name":"hello-web","image":"gcr.io/${PROJECT_ID}/hello-web:'"$CIRCLE_SHA1"'"}]}}}}'
