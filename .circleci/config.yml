@@ -45,12 +45,12 @@ jobs:
       
       - run:
           name: build docker image
-          command: docker build -t gcr.io/${PROJECT_ID}/hello-app:$CIRCLE_SHA1 .
+          command: docker build -t gcr.io/${PROJECT_ID}/hello-app:v3 .
      
       - run:
           name: push docker image to gcr
-          command: sudo gcloud docker -- push gcr.io/${PROJECT_ID}/hello-app:$CIRCLE_SHA1
+          command: sudo gcloud docker -- push gcr.io/${PROJECT_ID}/hello-app:v3
       - run:
           name: patch deployment
-          command: kubectl patch deployment hello-web -p '{"spec":{"template":{"spec":{"containers":[{"name":"hello-web","image":"gcr.io/${PROJECT_ID}/hello-web:'"$CIRCLE_SHA1"'"}]}}}}'
+          command: kubectl set image deployment/hello-web hello-web=gcr.io/${PROJECT_ID}/hello-app:v3
 
