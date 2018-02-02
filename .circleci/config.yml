@@ -45,12 +45,12 @@ jobs:
       
       - run:
           name: build docker image
-          command: docker build -t gcr.io/${PROJECT_ID}/hello-app:v3 .
+          command: docker build -t gcr.io/${PROJECT_ID}/hello-app:$CIRCLE_BUILD_NUM .
      
       - run:
           name: push docker image to gcr
-          command: sudo gcloud docker -- push gcr.io/${PROJECT_ID}/hello-app:v3
+          command: sudo gcloud docker -- push gcr.io/${PROJECT_ID}/hello-app:$CIRCLE_BUILD_NUM
       - run:
           name: patch deployment
-          command: kubectl set image deployment/hello-web hello-web=gcr.io/${PROJECT_ID}/hello-app:v3
+          command: kubectl set image deployment/hello-web hello-web=gcr.io/${PROJECT_ID}/hello-app:$CIRCLE_BUILD_NUM
 
