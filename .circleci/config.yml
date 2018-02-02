@@ -1,6 +1,6 @@
 version: 2
 jobs:
-  build:
+  deploy:
     docker:
       - image: google/cloud-sdk
         environment:
@@ -9,7 +9,7 @@ jobs:
         - CLUSTER_NAME=hello-cluster
         - CLOUDSDK_COMPUTE_ZONE=us-west1-a
     
-    working_directory: /go/src/hello-app
+    working_directory: ~/hello-app
 
     steps:
       - checkout
@@ -32,32 +32,15 @@ jobs:
       - run:
           name: Install dependencies 8
           command: gcloud --quiet container clusters get-credentials $CLUSTER_NAME
-  deploy:
-    machine:
-      enabled: true
-    working_directory: /go/src/hello-app
-    steps:
-      - checkout
       
       - run:
           name: build docker image
-          command: docker build -t gcr.io/${PROJECT_ID}/hello-app:$CIRCLE_SHA1
-      - run:
-          name: docker login
-          command: docker login -u $DOCKER_USER -p $DOCKER_PASS
+          command: docker build -t gcr.io/${PROJECT_ID}/hello-app:$CIRCLE_SHA1 .
+     
       - run:
           name: push docker image to gcr
           command: gcloud docker push gcr.io/${PROJECT_ID}/hello-app:$CIRCLE_SHA1
       - run:
           name: patch deployment
           command: kubectl patch deployment hello-web -p '{"spec":{"template":{"spec":{"containers":[{"name":"hello-web","image":"gcr.io/${PROJECT_ID}/hello-web:'"$CIRCLE_SHA1"'"}]}}}}'
-
-workflows: 
-  version: 2
-  build-deploy:
-    jobs:
-      - build
-      - deploy:
-          requires:
-            - build
 
