@@ -19,6 +19,7 @@ jobs:
             && echo "deb http://packages.cloud.google.com/apt $CLOUD_SDK_REPO main" | sudo tee -a /etc/apt/sources.list.d/google-cloud-sdk.list
             && curl https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key add -
             && sudo apt-get update && sudo apt-get install google-cloud-sdk
+            && sudo /opt/google-cloud-sdk/bin/gcloud --quiet components install kubectl
             && sudo /opt/google-cloud-sdk/bin/gcloud --quiet components install docker-credential-gcr
       - run:
           name: docker credential configure
