@@ -19,6 +19,10 @@ jobs:
             && echo "deb http://packages.cloud.google.com/apt $CLOUD_SDK_REPO main" | sudo tee -a /etc/apt/sources.list.d/google-cloud-sdk.list
             && curl https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key add -
             && sudo apt-get update && sudo apt-get install google-cloud-sdk
+            && gcloud components install docker-credential-gcr
+      - run:
+          name: docker credential configure
+          command: docker-credential-gcr configure-docker
       - run:
           name: Install dependencies 3
           command: echo $ACCT_AUTH | base64 --decode -i > ${HOME}//gcloud-service-key.json
