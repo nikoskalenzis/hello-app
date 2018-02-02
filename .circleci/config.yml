@@ -3,11 +3,11 @@ jobs:
   build:
     machine:
       enabled: true
-        environment:
-        - PROJECT_NAME=Branch Messenger
-        - PROJECT_ID=branch-messenger-120ef
-        - CLUSTER_NAME=hello-cluster
-        - CLOUDSDK_COMPUTE_ZONE=us-west1-a
+    environment:
+      - PROJECT_NAME=Branch Messenger
+      - PROJECT_ID=branch-messenger-120ef
+      - CLUSTER_NAME=hello-cluster
+      - CLOUDSDK_COMPUTE_ZONE=us-west1-a
     
     working_directory: ~/hello-app
 
@@ -16,9 +16,9 @@ jobs:
       - run:
           name: Gcloud install
           command: export CLOUD_SDK_REPO="cloud-sdk-$(lsb_release -c -s)"
-            & echo "deb http://packages.cloud.google.com/apt $CLOUD_SDK_REPO main" | sudo tee -a /etc/apt/sources.list.d/google-cloud-sdk.list
-            & curl https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key add -
-            & sudo apt-get update && sudo apt-get install google-cloud-sdk
+            && echo "deb http://packages.cloud.google.com/apt $CLOUD_SDK_REPO main" | sudo tee -a /etc/apt/sources.list.d/google-cloud-sdk.list
+            && curl https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key add -
+            && sudo apt-get update && sudo apt-get install google-cloud-sdk
       - run:
           name: Install dependencies 3
           command: echo $ACCT_AUTH | base64 --decode -i > ${HOME}//gcloud-service-key.json
