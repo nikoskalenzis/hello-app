@@ -4,16 +4,19 @@ jobs:
     docker:
       - image: alpine:latest
         environment:
-          PROJECT_NAME: Branch Messenger
-          PROJECT_ID: branch-messenger-120ef
-          CLUSTER_NAME: hello-cluster
-          CLOUDSDK_COMPUTE_ZONE: us-west1-a
+        - PROJECT_NAME=Branch Messenger
+        - PROJECT_ID=branch-messenger-120ef
+        - CLUSTER_NAME=hello-cluster
+        - CLOUDSDK_COMPUTE_ZONE=us-west1-a
+    
+    working_directory: /go/src/hello-app
+
     steps:
       - checkout
 
       - run:
           name: Install dependencies
-          command: {{item}}
+          command: {{ item }}
           with_items:
             - sudo /opt/google-cloud-sdk/bin/gcloud --quiet components update --version 120.0.0
             - sudo /opt/google-cloud-sdk/bin/gcloud --quiet components update --version 120.0.0 kubectl
@@ -43,7 +46,7 @@ jobs:
           name: docker login
           command: docker login -u $DOCKER_USER -p $DOCKER_PASS
       - run:
-          name: push docker image
+          name: push docker image to gcr
           command: gcloud docker push gcr.io/${PROJECT_ID}/hello-app:$CIRCLE_SHA1
       - run:
           name: patch deployment
