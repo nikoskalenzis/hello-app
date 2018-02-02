@@ -2,7 +2,7 @@ version: 2
 jobs:
   build:
     docker:
-      - image: alpine:latest
+      - image: google/cloud-sdk
         environment:
         - PROJECT_NAME=Branch Messenger
         - PROJECT_ID=branch-messenger-120ef
