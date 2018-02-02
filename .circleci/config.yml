@@ -15,12 +15,6 @@ jobs:
       - checkout
 
       - run:
-          name: Install dependencies 1
-          command: gcloud --quiet components update --version 120.0.0
-      - run:
-          name: Install dependencies 2
-          command: gcloud --quiet components update --version 120.0.0 kubectl    
-      - run:
           name: Install dependencies 3
           command: echo $ACCT_AUTH | base64 --decode -i > ${HOME}//gcloud-service-key.json
       - run:
