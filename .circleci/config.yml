@@ -16,28 +16,28 @@ jobs:
 
       - run:
           name: Install dependencies 1
-          command: sudo /opt/google-cloud-sdk/bin/gcloud --quiet components update --version 120.0.0
+          command: gcloud --quiet components update --version 120.0.0
       - run:
           name: Install dependencies 2
-          command: sudo /opt/google-cloud-sdk/bin/gcloud --quiet components update --version 120.0.0 kubectl    
+          command: gcloud --quiet components update --version 120.0.0 kubectl    
       - run:
           name: Install dependencies 3
           command: echo $ACCT_AUTH | base64 --decode -i > ${HOME}//gcloud-service-key.json
       - run:
           name: Install dependencies 4
-          command: sudo /opt/google-cloud-sdk/bin/gcloud auth activate-service-account --key-file ${HOME}/gcloud-service-key.json
+          command: gcloud auth activate-service-account --key-file ${HOME}/gcloud-service-key.json
       - run:
           name: Install dependencies 5
-          command: sudo /opt/google-cloud-sdk/bin/gcloud config set project $PROJECT_ID
+          command: gcloud config set project $PROJECT_ID
       - run:
           name: Install dependencies 6
-          command: sudo /opt/google-cloud-sdk/bin/gcloud --quiet config set container/cluster $CLUSTER_NAME
+          command: gcloud --quiet config set container/cluster $CLUSTER_NAME
       - run:
           name: Install dependencies 7
-          command: sudo /opt/google-cloud-sdk/bin/gcloud config set compute/zone ${CLOUDSDK_COMPUTE_ZONE}
+          command: gcloud config set compute/zone ${CLOUDSDK_COMPUTE_ZONE}
       - run:
           name: Install dependencies 8
-          command: sudo /opt/google-cloud-sdk/bin/gcloud --quiet container clusters get-credentials $CLUSTER_NAME
+          command: gcloud --quiet container clusters get-credentials $CLUSTER_NAME
       - run:
           name: run test
           command: |
