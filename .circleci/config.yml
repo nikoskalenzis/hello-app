@@ -32,11 +32,6 @@ jobs:
       - run:
           name: Install dependencies 8
           command: gcloud --quiet container clusters get-credentials $CLUSTER_NAME
-      - run:
-          name: run test
-          command: |
-            docker run -d -p 8080:8080 gcr.io/${PROJECT_ID}/hello-web:$CIRCLE_SHA!; sleep10
-            curl --retry 10 --retry-delay 5 -v http://localhost:8080
   deploy:
     machine:
       enabled: true
