@@ -49,7 +49,7 @@ jobs:
           name: patch deployment
           command: kubectl patch deployment hello-web -p '{"spec":{"template":{"spec":{"containers":[{"name":"hello-web","image":"gcr.io/${PROJECT_ID}/hello-web:'"$CIRCLE_SHA1"'"}]}}}}'
 
-workflow: 
+workflows: 
   version: 2
   build-deploy:
     jobs:
