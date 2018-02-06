@@ -1,6 +1,30 @@
 version: 2
 jobs:
   build:
+    docker:
+      - image: circleci/golang:latest
+        environment:
+          - TEST_RESULTS=/tmp/test-results
+    
+    working_directory: ~/hello-app
+    steps:
+      - checkout
+      - run:
+          name: build go app
+          command: go build main.go
+      - run:
+          name: create test dir
+          command: mkdir $TEST_RESULTS
+      - run:
+          name: run test
+          command: go test -cover- coverprofile=$TEST_RESULTS/c.out
+     
+      - store_test_results:
+          path: $TEST_RESULTS
+      - store_artifacts:
+          path: $TEST_RESULTS
+          destination: test-results
+  deploy:
     machine:
       enabled: true
     environment:
@@ -54,3 +78,11 @@ jobs:
           name: patch deployment
           command: kubectl set image deployment/hello-web hello-web=gcr.io/${PROJECT_ID}/hello-app:$CIRCLE_BUILD_NUM
 
+workflows:
+  version: 2
+  build-deploy:
+    jobs:
+      - build
+      - deploy:
+          requires:
+            - build
