@@ -20,7 +20,7 @@ jobs:
           command: go test -cover -coverprofile=$TEST_RESULTS/c.out
      
       - store_test_results:
-          path: $TEST_RESULTS
+          path: /tmp/test-results
       - store_artifacts:
           path: $TEST_RESULTS
           destination: test-results
@@ -49,23 +49,13 @@ jobs:
           name: docker credential configure
           command: docker-credential-gcr configure-docker
       - run:
-          name: Install dependencies 3
+          name: Setup gcloud environment
           command: echo $ACCT_AUTH | base64 --decode -i > ${HOME}//gcloud-service-key.json
-      - run:
-          name: Install dependencies 4
-          command: gcloud auth activate-service-account --key-file ${HOME}/gcloud-service-key.json
-      - run:
-          name: Install dependencies 5
-          command: gcloud config set project $PROJECT_ID
-      - run:
-          name: Install dependencies 6
-          command: gcloud --quiet config set container/cluster $CLUSTER_NAME
-      - run:
-          name: Install dependencies 7
-          command: gcloud config set compute/zone ${CLOUDSDK_COMPUTE_ZONE}
-      - run:
-          name: Install dependencies 8
-          command: gcloud --quiet container clusters get-credentials $CLUSTER_NAME
+            && gcloud auth activate-service-account --key-file ${HOME}/gcloud-service-key.json
+            && gcloud config set project $PROJECT_ID
+            && gcloud --quiet config set container/cluster $CLUSTER_NAME
+            && gcloud config set compute/zone ${CLOUDSDK_COMPUTE_ZONE}
+            && gcloud --quiet container clusters get-credentials $CLUSTER_NAME
       
       - run:
           name: build docker image
