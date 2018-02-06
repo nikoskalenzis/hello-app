@@ -17,7 +17,7 @@ jobs:
           command: mkdir $TEST_RESULTS
       - run:
           name: run test
-          command: go test -cover- coverprofile=$TEST_RESULTS/c.out
+          command: go test -cover coverprofile=$TEST_RESULTS/c.out
      
       - store_test_results:
           path: $TEST_RESULTS
