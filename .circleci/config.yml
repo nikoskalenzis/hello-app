@@ -66,7 +66,7 @@ jobs:
           command: sudo gcloud docker -- push gcr.io/${PROJECT_ID}/hello-app:$CIRCLE_BUILD_NUM
       - run:
           name: patch deployment
-          command: kubectl set image deployment/hello-web hello-web=gcr.io/${PROJECT_ID}/hello-app:$CIRCLE_BUILD_NUM
+          command: kubectl set image deployment/hello-app hello-app=gcr.io/${PROJECT_ID}/hello-app:$CIRCLE_BUILD_NUM
 
 workflows:
   version: 2
