@@ -41,7 +41,7 @@ func hello(w http.ResponseWriter, r *http.Request) {
 	host, _ := os.Hostname()
 	fmt.Fprintf(w, "Hello, world!\n")
 	fmt.Fprintf(w, "Version: 36.0.0\n")
-	fmt.Fprintf(w, "You have a CircleCI pipeline\n")
+	fmt.Fprintf(w, "Running on K8s\n")
 	fmt.Fprintf(w, "Hostname: %s\n", host)
 }
 // [END all]
