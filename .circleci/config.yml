@@ -30,7 +30,7 @@ jobs:
     environment:
       - PROJECT_NAME=Branch Messenger
       - PROJECT_ID=branch-messenger-120ef
-      - CLUSTER_NAME=test-cluster
+      - CLUSTER_NAME=branchmessenger
       - CLOUDSDK_COMPUTE_ZONE=us-west1-a
     
     working_directory: ~/hello-app
