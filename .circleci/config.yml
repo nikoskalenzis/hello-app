@@ -44,10 +44,6 @@ jobs:
             && curl https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key add -
             && sudo apt-get update && sudo apt-get install google-cloud-sdk
             && sudo /opt/google-cloud-sdk/bin/gcloud --quiet components install kubectl
-            #&& sudo /opt/google-cloud-sdk/bin/gcloud --quiet components install docker-credential-gcr
-      #- run:
-      #    name: docker credential configure
-      #    command: docker-credential-gcr configure-docker
       - run:
           name: Setup gcloud environment
           command: echo $ACCT_AUTH | base64 --decode -i > ${HOME}//gcloud-service-key.json
@@ -56,8 +52,6 @@ jobs:
             && gcloud --quiet config set container/cluster $CLUSTER_NAME
             && gcloud config set compute/zone ${CLOUDSDK_COMPUTE_ZONE}
             && gcloud --quiet container clusters get-credentials $CLUSTER_NAME
-            && gcloud docker -- --version
-            #&& gcloud auth configure-docker
       - run:
           name: build docker image
           command: docker build -t gcr.io/${PROJECT_ID}/hello-app:$CIRCLE_BUILD_NUM .
