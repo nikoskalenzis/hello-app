@@ -39,7 +39,7 @@ func main() {
 func hello(w http.ResponseWriter, r *http.Request) {
 	log.Printf("Serving request: %s", r.URL.Path)
 	host, _ := os.Hostname()
-	fmt.Fprintf(w, "Hello, Ljubisha\n")
+	fmt.Fprintf(w, "Hello, Gcloud docker push\n")
 	fmt.Fprintf(w, "Version: 37.0.0\n")
 	fmt.Fprintf(w, "Running on K8s\n")
 	fmt.Fprintf(w, "Hostname: %s\n", host)
