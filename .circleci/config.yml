@@ -58,7 +58,7 @@ jobs:
             && gcloud config set compute/zone ${CLOUDSDK_COMPUTE_ZONE}
             && gcloud --quiet container clusters get-credentials $CLUSTER_NAME
             && gcloud docker -- --version
-            && gcloud auth configure-docker
+            #&& gcloud auth configure-docker
       - run:
           name: build docker image
           command: docker build -t gcr.io/${PROJECT_ID}/hello-app:$CIRCLE_BUILD_NUM .
