@@ -1,4 +1,4 @@
-isteps:
+steps:
   # Build steps
   - name: 'gcr.io/cloud-builders/docker'
     args: [ 'build', '-t', 'gcr.io/$PROJECT_ID/hello-app', '.' ]
