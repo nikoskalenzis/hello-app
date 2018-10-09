@@ -1,0 +1,22 @@
+isteps:
+  # Build steps
+  - name: 'gcr.io/cloud-builders/docker'
+    args: [ 'build', '-t', 'gcr.io/$PROJECT_ID/hello-app', '.' ]
+  - name: 'gcr.io/cloud-builders/docker'
+    args: [ 'tag', 'gcr.io/$PROJECT_ID/hello-app', 'eu.gcr.io/$PROJECT_ID/hello-app:$BRANCH_NAME-$REVISION_ID']
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['push', 'gcr.io/$PROJECT_ID/hello-app:$BRANCH_NAME-$REVISION_ID']
+  # Deployment step
+  - name: 'gcr.io/cloud-builders/kubectl'
+    args: ['set', 'image', 'deployment/hello-app', 'hello-app=gcr.io/$PROJECT_ID/hello-app:$BRANCH_NAME-$REVISION_ID']
+    env:
+    - 'CLOUDSDK_COMPUTE_ZONE=us-west1-a'
+    - 'CLOUDSDK_CONTAINER_CLUSTER=test-cluster'
+  # image update steps
+
+images:
+- 'gcr.io/$PROJECT_ID/hello-app'
+- 'gcr.io/$PROJECT_ID/hello-app:$BRANCH_NAME-$REVISION_ID'i
+
+tags:
+  - "hello-app"
