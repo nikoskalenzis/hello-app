@@ -16,7 +16,7 @@ steps:
 
 images:
 - 'gcr.io/$PROJECT_ID/hello-app'
-- 'gcr.io/$PROJECT_ID/hello-app:$BRANCH_NAME-$REVISION_ID'i
+- 'gcr.io/$PROJECT_ID/hello-app:$BRANCH_NAME-$REVISION_ID'
 
 tags:
   - "hello-app"
