@@ -2,28 +2,17 @@ steps:
   # Build steps
   - name: 'gcr.io/cloud-builders/docker'
     args: |
-      if [ "${BRANCH_NAME}" == "master" ]; then
-        [ 'build', '-t', 'gcr.io/$PROJECT_ID/hello-app:$BRANCH_NAME-$REVISION_ID', '.' ]
-      if [ "${BRANCH_NAME}" == "develop" ]; then
-        [ 'build', '-t', 'gcr.io/$PROJECT_ID/hello-app-dev:$BRANCH_NAME-$REVISION_ID', '.' ]
-      fi
+      [[ "${BRANCH_NAME}" == "master" ]] && [ 'build', '-t', 'gcr.io/$PROJECT_ID/hello-app:$BRANCH_NAME-$REVISION_ID', '.' ]
+      [[ "${BRANCH_NAME}" == "develop" ]] && [ 'build', '-t', 'gcr.io/$PROJECT_ID/hello-app-dev:$BRANCH_NAME-$REVISION_ID', '.' ]
   - name: 'gcr.io/cloud-builders/docker'
     args: |
-      if [ "${BRANCH_NAME}" == "master" ]; then
-        ['push', 'gcr.io/$PROJECT_ID/hello-app:$BRANCH_NAME-$REVISION_ID']
-      fi
-      if [ "${BRANCH_NAME}" == "develop" ]; then
-        ['push', 'gcr.io/$PROJECT_ID/hello-app-dev:$BRANCH_NAME-$REVISION_ID']
-      fi
+      [[ "${BRANCH_NAME}" == "master" ]] && ['push', 'gcr.io/$PROJECT_ID/hello-app:$BRANCH_NAME-$REVISION_ID']
+      [[ "${BRANCH_NAME}" == "develop" ]] && ['push', 'gcr.io/$PROJECT_ID/hello-app-dev:$BRANCH_NAME-$REVISION_ID']
   # Deployment step
   - name: 'gcr.io/cloud-builders/kubectl'
     args: |
-      if [ "${BRANCH_NAME}" == "master" ]; then
-        ['set', 'image', 'deployment/hello-app', 'hello-app=gcr.io/$PROJECT_ID/hello-app:$BRANCH_NAME-$REVISION_ID']
-      fi
-      if [ "${BRANCH_NAME}" == "develop" ]; then
-        ['set', 'image', 'deployment/hello-app-dev', 'hello-app-dev=gcr.io/$PROJECT_ID/hello-app-dev:$BRANCH_NAME-$REVISION_ID']
-      fi
+      [[ "${BRANCH_NAME}" == "master" ]] && ['set', 'image', 'deployment/hello-app', 'hello-app=gcr.io/$PROJECT_ID/hello-app:$BRANCH_NAME-$REVISION_ID']
+      [[ "${BRANCH_NAME}" == "develop" ]] && ['set', 'image', 'deployment/hello-app-dev', 'hello-app=gcr.io/$PROJECT_ID/hello-app-dev:$BRANCH_NAME-$REVISION_ID']
     env:
     - 'CLOUDSDK_COMPUTE_ZONE=us-west1-a'
     - 'CLOUDSDK_CONTAINER_CLUSTER=test-cluster'
