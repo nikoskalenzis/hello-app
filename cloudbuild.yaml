@@ -10,16 +10,18 @@ steps:
   - name: 'gcr.io/cloud-builders/docker'
     args: |
       if [ "${BRANCH_NAME}" == "master" ]; then
-        ['push', 'gcr.io/$PROJECT_ID/hello-app:$BRANCH_NAME-$REVISION_ID']
+        [ 'push', 'gcr.io/$PROJECT_ID/hello-app:$BRANCH_NAME-$REVISION_ID' ]
       if [ "${BRANCH_NAME}" == "develop" ]; then
-        ['push', 'gcr.io/$PROJECT_ID/hello-app-dev:$BRANCH_NAME-$REVISION_ID']
+        [ 'push', 'gcr.io/$PROJECT_ID/hello-app-dev:$BRANCH_NAME-$REVISION_ID' ]
+      fi
   # Deployment step
   - name: 'gcr.io/cloud-builders/kubectl'
     args: |
       if [ "${BRANCH_NAME}" == "master" ]; then
-        ['set', 'image', 'deployment/hello-app', 'hello-app=gcr.io/$PROJECT_ID/hello-app:$BRANCH_NAME-$REVISION_ID']
+        [ 'set', 'image', 'deployment/hello-app', 'hello-app=gcr.io/$PROJECT_ID/hello-app:$BRANCH_NAME-$REVISION_ID' ]
       if [ "${BRANCH_NAME}" == "develop" ]; then
-        ['set', 'image', 'deployment/hello-app-dev', 'hello-app-dev=gcr.io/$PROJECT_ID/hello-app-dev:$BRANCH_NAME-$REVISION_ID']
+        [ 'set', 'image', 'deployment/hello-app-dev', 'hello-app-dev=gcr.io/$PROJECT_ID/hello-app-dev:$BRANCH_NAME-$REVISION_ID' ]
+      fi
     env:
     - 'CLOUDSDK_COMPUTE_ZONE=us-west1-a'
     - 'CLOUDSDK_CONTAINER_CLUSTER=test-cluster'
